@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Tag List</h1>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tag in tags %}
+      <tr>
+        <td>{{ tag.name }}</td>
+        <td>
+          <a href="{% url "to_do_system:update-tag" tag.id %}" class="btn btn-outline-primary">Update</a>
+          <a href="{% url "to_do_system:delete-tag" tag.id %}" class="btn btn-outline-danger">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url "to_do_system:add-tag" %}" class="btn btn-outline-primary">Add New Tag</a>
+{% endblock %}

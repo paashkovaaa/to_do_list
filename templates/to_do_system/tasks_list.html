@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Task List</h1>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Content</th>
+      <th>Created</th>
+      <th>Deadline</th>
+      <th>Tags</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task.content }}</td>
+        <td>{{ task.created_datetime }}</td>
+        <td>{% if task.deadline_datetime %}{{ task.deadline_datetime }}{% endif %}</td>
+        <td>{% for tag in task.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+        <td>
+          {% if task.is_done %}
+            <span>Done</span>
+          {% else %}
+            <span>Not Done</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if task.is_done %}
+            <a href="{% url "to_do_system:complete-toggle" task.id %}" class="btn btn-outline-secondary">Undo</a>
+          {% else %}
+            <a href="{% url "to_do_system:complete-toggle" task.id %}" class="btn btn-outline-primary">Complete</a>
+          {% endif %}
+          <a href="{% url "to_do_system:update-task" task.id %}" class="btn btn-outline-primary">Update</a>
+          <a href="{% url "to_do_system:delete-task" task.id %}" class="btn btn-outline-danger">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url "to_do_system:add-task" %}" class="btn btn-outline-primary">Add New Task</a>
+{% endblock %}
