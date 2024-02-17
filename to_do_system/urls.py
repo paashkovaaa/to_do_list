@@ -11,7 +11,7 @@ from to_do_system.views import (TaskListView,
                                 TaskCompleteToggleView)
 
 urlpatterns = [
-    path(" ", TaskListView.as_view(), name="home"),
+    path("", TaskListView.as_view(), name="home"),
     path("tags/", TagListView.as_view(), name="tag-list"),
     path("add_task/", TaskCreateView.as_view(), name="add-task"),
     path("update_task/<int:pk>/", TaskUpdateView.as_view(), name="update-task"),
