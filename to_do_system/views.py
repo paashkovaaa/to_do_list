@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views import generic, View
+from django.views import generic
 
 from to_do_system.forms import TagForm, TaskForm
 from to_do_system.models import Tag, Task
@@ -60,9 +60,12 @@ class TaskDeleteView(generic.DeleteView):
     success_url = reverse_lazy("to_do:home")
 
 
-class TaskCompleteToggleView(View):
-    def get(self, request, *args, **kwargs):
-        task = get_object_or_404(Task, pk=kwargs["pk"])
+class TaskCompleteToggleView(generic.UpdateView):
+    model = Task
+    fields = ["is_done"]
+    success_url = reverse_lazy("to_do_system:home")
+
+    def form_valid(self, form):
+        task = get_object_or_404(Task, pk=self.kwargs["pk"])
         task.is_done = not task.is_done
-        task.save()
-        return redirect("to_do:home")
+        return super().form_valid(form)
